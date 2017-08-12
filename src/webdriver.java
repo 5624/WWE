@@ -1,5 +1,7 @@
 
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -8,19 +10,32 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class webdriver {
 
 	public static void main(String[] args) {
 		
-		WebDriver driver = new FirefoxDriver();
-		//driver.get("file:///../items.html");
+		WebDriver driver = new InternetExplorerDriver();
+		//make sure active content is enabled in IE
+		DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
+		capabilities.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
 		
-		// 1	
-		System.out.println(driver.findElement(By.xpath("//span[@class='title ng-binding'][3]")).getText());
+		Path file = Paths.get("src/items.html");
+		driver.get(file.toUri().toString());
+		
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		
+		// A
+		System.out.println("===== PartA =====");
+		System.out.println(wait.until(
+		        ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='title ng-binding'][3]"))).getText());
 		System.out.println(driver.findElement(By.xpath("//span[@class='title ng-binding'][5]")).getText());
 		
-		//2	
+		// B	
 		HashMap<String, String> map = new HashMap<String, String>();
 		
 		List<WebElement> foodNames = driver.findElements(By.xpath("//span[@class='title ng-binding']"));
@@ -42,6 +57,7 @@ public class webdriver {
 		<span class="description ng-binding" ng-bind="food._servingDesc">1 Tbsp</span>
 		</div> */
 		
+		System.out.println("===== PartB =====");
 		for (HashMap.Entry<String, String> entry : map.entrySet()) { 
 			System.out.println("FoodName = " + entry.getKey() + ", Decsription = " + entry.getValue()); 
 			}

@@ -1,15 +1,13 @@
 
-
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,8 +22,7 @@ public class webdriver {
 		DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
 		capabilities.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
 		
-		Path file = Paths.get("src/items.html");
-		driver.get(file.toUri().toString());
+		driver.get(Paths.get("src/items.html").toUri().toString());
 		
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		
@@ -36,7 +33,7 @@ public class webdriver {
 		System.out.println(driver.findElement(By.xpath("//span[@class='title ng-binding'][5]")).getText());
 		
 		// B	
-		HashMap<String, String> map = new HashMap<String, String>();
+		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 		
 		List<WebElement> foodNames = driver.findElements(By.xpath("//span[@class='title ng-binding']"));
 		List<WebElement> foodDescriptions = driver.findElements(By.xpath("//span[@class='description ng-binding']"));
@@ -47,7 +44,8 @@ public class webdriver {
 			map.put(foodItr.next().getText(), descItr.next().getText());
 		}
 		
-		/* if the structure would be like this, where each item is enclosed in a separate div or span, it would be more convenient to iterate:
+		/* if the structure would be like this, where each item is enclosed
+		   in a separate div or span, it would be more convenient to iterate:
 		<div class=”itemContent”>
 		<span class="title ng-binding" ng-bind="food.name">Apple butter</span>
 		<span class="description ng-binding" ng-bind="food._servingDesc">1 Tbsp</span>

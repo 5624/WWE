@@ -20,11 +20,4 @@ public class ItemContentUtil {
 		return By.xpath("//span[@class='description ng-binding']");
 	}
 	
-	
-	
-	public static By getDescItem5() {		
-		return By.xpath("//span[@class='description ng-binding']");
-	}
-	
-	
 }
